@@ -15,6 +15,7 @@ const copy = {
     venueValue: "北海道大学 エンレイソウ",
     entryValue: "参加無料",
     partyValue: "2〜4人チーム",
+    datePending: "日程調整中",
     countdownTitle: "GAME STARTまで",
     days: "DAYS",
     hours: "HRS",
@@ -70,7 +71,7 @@ const copy = {
     faq4Question: "スポンサー賞はありますか？",
     faq4Answer: "スポンサー賞などの追加情報は、決定次第公式サイトとSNSで発表します。",
     finalImageAlt: "完成したゲームを試遊して盛り上がるイベント会場",
-    finalTitle: "11月7日、<br />札幌でゲームを出そう。",
+    finalTitle: "札幌で、<br />ゲームを出そう。",
     finalBody: "定員に達し次第、参加受付を締め切ります。",
     finalEntry: "connpassで無料参加",
     partnerTitle: "協賛・連携企業を募集しています。",
@@ -97,6 +98,7 @@ const copy = {
     venueValue: "Hokkaido University, Enreiso",
     entryValue: "Free",
     partyValue: "Teams of 2–4",
+    datePending: "DATE TBA",
     countdownTitle: "UNTIL GAME START",
     days: "DAYS",
     hours: "HRS",
@@ -152,7 +154,7 @@ const copy = {
     faq4Question: "Will there be sponsor awards?",
     faq4Answer: "Sponsor awards and other additions will be announced on the official website and social channels once confirmed.",
     finalImageAlt: "A high-energy playtest finale at a game creation event",
-    finalTitle: "Ship a game<br />in Sapporo on Nov. 7.",
+    finalTitle: "Ship a game<br />in Sapporo.",
     finalBody: "Registration closes when capacity is reached.",
     finalEntry: "Join free on connpass",
     partnerTitle: "Sponsors and partners wanted.",
@@ -210,9 +212,16 @@ try {
 
 setLanguage(preferredLanguage || (navigator.language.toLowerCase().startsWith("ja") ? "ja" : "en"));
 
-const eventStart = new Date("2026-11-07T10:00:00+09:00").getTime();
+const eventStart = null;
 
 function updateCountdown() {
+  if (!eventStart) {
+    ["days", "hours", "minutes", "seconds"].forEach((key) => {
+      const element = document.querySelector(`[data-${key}]`);
+      if (element) element.textContent = "--";
+    });
+    return;
+  }
   const remaining = Math.max(0, eventStart - Date.now());
   const days = Math.floor(remaining / 86400000);
   const hours = Math.floor((remaining % 86400000) / 3600000);
